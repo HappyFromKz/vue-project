@@ -5,7 +5,7 @@ const category = {
     actions: {
         async getCategories({commit}) {
             try {
-                const {data, status} = await httpClient.get('category/categories', {
+                const {data, status} = await httpClient.get('category/', {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                     }
@@ -20,7 +20,7 @@ const category = {
         },
         async postCreateCategory({commit}, form) {
             try {
-                const {status} = await httpClient.post('category/store-Category', form, {
+                const {status} = await httpClient.post('category/', form, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                     }
@@ -32,7 +32,7 @@ const category = {
         },
         async putUpdateCategory({commit}, data) {
             try {
-                const {status} = await httpClient.put(`category/update-Category/${data.id}`, data, {
+                const {status} = await httpClient.put(`category/${data.id}`, data, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                     }
@@ -44,7 +44,7 @@ const category = {
         },
         async destroyDeleteCategory({commit}, id) {
             try {
-                const {status} = await httpClient.delete(`category/delete-Category/${id}`, {
+                const {status} = await httpClient.delete(`category/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                     }

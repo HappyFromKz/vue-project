@@ -3,16 +3,17 @@
 </template>
 
 <script>
-import authService from "@/services/auth/auth.service";
 
 export default {
   name: 'App',
+  data() {
+    return{
+      userRole: localStorage.getItem('role'),
+    }
+  },
   async mounted() {
-    let token = localStorage.getItem('access_token')
-    if (token){
-      await authService.me(token) ? this.$router.push('/home') : this.$router.push('/auth')
-    } else {
-      this.$router.push('/auth')
+    if (['moderator', 'admin'].includes(this.userRole)) {
+      this.$router.push('/admin')
     }
   }
 }
@@ -36,7 +37,4 @@ nav a {
   color: #2c3e50;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

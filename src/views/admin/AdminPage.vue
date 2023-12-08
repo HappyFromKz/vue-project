@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <navbar v-if="isAuth" :links="links"/>
+    <navbar v-if="['moderator', 'admin'].includes(isPersonal)" :links="links"/>
     <router-view/>
   </div>
 </template>
@@ -9,15 +9,13 @@
 import Navbar from "@/components/Navbar.vue";
 
 export default {
-  name: "HomePage",
+  name: "AdminPage",
   components: {Navbar},
   data(){
     return {
-      isAuth: localStorage.getItem('access_token'),
+      isPersonal: localStorage.getItem('role'),
       links: [
-        {url: '/home/orders', name: 'Orders'},
         {url: '/home/products', name: 'Products'},
-        {url: '/home/clients', name: 'Clients'},
         {url: '/home/categories', name: 'Categories'},
       ]
     }

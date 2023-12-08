@@ -5,10 +5,8 @@ const authService = {
         try {
             const {data, status} = await httpClient.post('auth/login', {password: form.password, email: form.email})
             if (status == 200){
-                localStorage.setItem('access_token', data[1].original.access_token)
-                localStorage.setItem('role', data[0].role)
-                localStorage.setItem('name', data[0].name)
-                localStorage.setItem('email', data[0].email)
+                localStorage.setItem('access_token', data.access_token)
+                localStorage.setItem('role', data.role)
                 return true
             }
         } catch (e) {

@@ -11,11 +11,14 @@
             <RouterLink :to="item.url" class="nav-link">{{ item.name }}</RouterLink>
           </li>
         </ul>
-        <div>
+        <div v-if="username">
           <span class="navbar-text me-2" style="font-size: 18px">
             {{ username }}
           </span>
           <button @click="logout" type="button" class="btn btn-danger">Выйти</button>
+        </div>
+        <div v-else>
+          <button @click="logout" type="button" class="btn btn-primary">Войти</button>
         </div>
       </div>
     </div>
