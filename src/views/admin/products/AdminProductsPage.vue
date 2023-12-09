@@ -4,9 +4,11 @@
       <thead>
       <tr>
         <th scope="col">#</th>
+        <th scope="col">Image</th>
         <th scope="col">Name</th>
         <th scope="col">Price</th>
         <th scope="col">Quantity</th>
+        <th scope="col">Description</th>
         <th scope="col">Category</th>
         <th scope="col" v-if="['moderator', 'admin'].includes(role)">Actions</th>
       </tr>
@@ -14,9 +16,11 @@
       <tbody v-if="categories.length > 0 && products.length > 0">
       <tr v-for="(item, index) in products" :key="index">
         <th scope="row">{{index+1}}</th>
+        <td><img width="100" height="100" :src="item.image" alt=""></td>
         <td>{{item.name}}</td>
         <td>{{item.price}}&#36;</td>
         <td>{{item.quantity}}</td>
+        <td style="font-size: 12px">{{item.description}}</td>
         <td>{{categories.find(i => i.id == item.category_id).name}}</td>
         <td v-if="['moderator', 'admin'].includes(role)">
           <button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Update', item.id)"
@@ -40,10 +44,14 @@
         <div class="modal-body">
           <label>Name</label>
           <input type="text" class="form-control mb-2" placeholder="Name" v-model="modalData.name">
+          <label>Picture</label>
+          <input type="text" class="form-control mb-2" placeholder="Name" v-model="modalData.image">
           <label>Price&#36;</label>
           <input type="number" class="form-control mb-2" placeholder="Price" v-model="modalData.price">
           <label>Quantity</label>
-          <input type="number" class="form-control mb-2" placeholder="Quantity" v-model="modalData.quantity">
+          <input type="number" class="form-control mb-2" placeholder="Price" v-model="modalData.quantity">
+          <label>Description</label>
+          <textarea type="text" class="form-control mb-2" placeholder="Quantity" v-model="modalData.description"></textarea>
           <label>Category</label>
           <select class="form-select" v-model="modalData.category_id">
             <option v-for="(category, index) in [{id: null, name:'Выберите категорию'}, ...categories]"
@@ -69,7 +77,7 @@
 import {mapActions, mapState} from "vuex";
 
 export default {
-  name: "ProductsPage",
+  name: "AdminProductsPage",
   data(){
     return {
       role: localStorage.getItem('role'),
@@ -86,13 +94,14 @@ export default {
     ...mapActions('category', ['getCategories']),
     openModal(modalMethod, id = null){
       this.activeModalMethod = modalMethod
-      id ? this.modalData = {...this.products.find(i => i.id == id)} : this.modalData = {name: '', price: null, quantity: null, category_id: null}
+      id ? this.modalData = {...this.products.find(i => i.id == id)} : this.modalData = {name: '', price: null, quantity: null, category_id: null, image: '', description: ''}
     },
     closeModal(){
       this.activeModalMethod = ''
       this.modalData = {}
     },
     async createClient(){
+      this.modalData.price = Number(this.modalData.price)
       let createRes = await this.postCreateProduct(this.modalData)
       if (createRes){
         await this.getProducts()
@@ -105,6 +114,7 @@ export default {
       }
     },
     async updateClient(){
+      this.modalData.price = Number(this.modalData.price)
       let updateRes = await this.putUpdateProduct(this.modalData)
       if (updateRes){
         await this.getProducts()

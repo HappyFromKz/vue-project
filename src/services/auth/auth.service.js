@@ -15,12 +15,14 @@ const authService = {
     },
     async me(token){
         try {
-            const {status } = await httpClient.post('auth/me', null, {
+            const {status, data } = await httpClient.post('auth/me', null, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            return status == 200;
+            if (status == 200){
+                return data
+            }
         } catch (e) {
             console.log(e)
         }

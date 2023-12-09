@@ -1,18 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AuthPage from "@/views/AuthPage.vue";
+import AuthPage from "@/views/auth/LoginPage.vue";
 import App from "@/App.vue";
-import ProductsPage from "@/views/admin/products/ProductsPage.vue";
 import CategoriesPage from "@/views/admin/categories/CategoriesPage.vue";
 import AdminPage from "@/views/admin/AdminPage.vue";
 import UserProducts from "@/views/user/UserProducts.vue";
 import UserPage from "@/views/user/UserPage.vue";
 import UserProfile from "@/views/user/UserProfile.vue";
 import UserCart from "@/views/user/UserCart.vue";
+import NotFoundPage from "@/views/NotFoundPage.vue";
+import ForbiddenPage from "@/views/ForbiddenPage.vue";
+import AdminProductsPage from "@/views/admin/products/AdminProductsPage.vue";
+import LoginPage from "@/views/auth/LoginPage.vue";
+import UserProduct from "@/views/user/UserProduct.vue";
 
 const routes = [
   {
     path: '/',
     name: 'app',
+    redirect: '/user',
     component: App
   },
   {
@@ -24,7 +29,7 @@ const routes = [
       {
         path: 'login',
         name: 'login',
-        component: ProductsPage
+        component: LoginPage
       },
       {
         path: 'register',
@@ -43,6 +48,11 @@ const routes = [
         path: 'user-products',
         name: 'user-products',
         component: UserProducts
+      },
+      {
+        path: 'user-product/:id',
+        name: 'user-product/:id',
+        component: UserProduct
       },
       {
         path: 'profile',
@@ -65,14 +75,32 @@ const routes = [
       {
         path: 'admin-products',
         name: 'admin-products',
-        component: ProductsPage
+        component: AdminProductsPage,
+        meta:{
+          admin: true,
+          moderator: true
+        }
       },
       {
         path: 'categories',
         name: 'categories',
-        component: CategoriesPage
+        component: CategoriesPage,
+        meta:{
+          admin: true,
+          moderator: true
+        }
       },
     ]
+  },
+  {
+    path: '/not-found',
+    name: 'not-found',
+    component: NotFoundPage
+  },
+  {
+    path: '/forbidden',
+    name: 'forbidden',
+    component: ForbiddenPage
   },
 ]
 
@@ -81,24 +109,21 @@ const router = createRouter({
   routes
 })
 
-const pagesWithoutAuthorization = ['login', 'register', 'recovery', 'register-wto']
-const pagesForEveryoneWithAuthorization = ['restrict', 'notFound']
+const pagesWithoutAuthorization = ['app', 'login', 'register', 'user-products', 'user-product:id', 'profile', 'cart', 'forbidden', 'not-found']
 
 router.beforeEach(async (to) => {
-
+  console.log(to)
   if (pagesWithoutAuthorization.includes(to.name)) {
     return true
   }
-
-
-
-  if (to.meta) {
+  if (to.meta[localStorage.getItem('role')]) {
     return true
   }
-
-  return (!to.name) ? {name: 'notFound'} : {name: 'restrict'}
+  if (to.href.includes('user-product')) {
+    return true
+  }
+  return (!to.name) ? {name: 'not-found'} : {name: 'forbidden'}
 
 })
-
 
 export default router

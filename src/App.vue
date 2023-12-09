@@ -5,17 +5,7 @@
 <script>
 
 export default {
-  name: 'App',
-  data() {
-    return{
-      userRole: localStorage.getItem('role'),
-    }
-  },
-  async mounted() {
-    if (['moderator', 'admin'].includes(this.userRole)) {
-      this.$router.push('/admin')
-    }
-  }
+  name: 'App'
 }
 </script>
 

@@ -5,11 +5,7 @@ const product = {
     actions: {
         async getProducts({commit}) {
             try {
-                const {data, status} = await httpClient.get('product', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                    }
-                });
+                const {data, status} = await httpClient.get('product');
                 if (status == 200) {
                     console.log(data)
                     commit('set_products', data)
@@ -18,13 +14,20 @@ const product = {
                 console.log(e)
             }
         },
+        async getProduct({commit}, id) {
+            try {
+                const {data, status} = await httpClient.get(`product/${id}`);
+                if (status == 200) {
+                    console.log(data)
+                    commit('set_product', data)
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        },
         async postCreateProduct({commit}, form) {
             try {
-                const {status} = await httpClient.post('product', form, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                    }
-                });
+                const {status} = await httpClient.post('product', form);
                 return status == 200
             } catch (e) {
                 console.log(e)
@@ -32,11 +35,7 @@ const product = {
         },
         async putUpdateProduct({commit}, data) {
             try {
-                const {status} = await httpClient.put(`product/${data.id}`, data, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                    }
-                });
+                const {status} = await httpClient.put(`product/${data.id}`, data);
                 return status == 200
             } catch (e) {
                 console.log(e)
@@ -44,11 +43,7 @@ const product = {
         },
         async destroyDeleteProduct({commit}, id) {
             try {
-                const {status} = await httpClient.delete(`product/${id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                    }
-                });
+                const {status} = await httpClient.delete(`product/${id}`);
                 return status == 200
             } catch (e) {
                 console.log(e)
@@ -58,10 +53,14 @@ const product = {
     mutations: {
         set_products(state, data){
             state.products = data
+        },
+        set_product(state, data){
+            state.product = data
         }
     },
     state: {
-        products: []
+        products: [],
+        product: {}
     },
 }
 

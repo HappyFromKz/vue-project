@@ -15,8 +15,8 @@ export default {
     return {
       isPersonal: localStorage.getItem('role'),
       links: [
-        {url: '/home/products', name: 'Products'},
-        {url: '/home/categories', name: 'Categories'},
+        {url: '/admin/admin-products', name: 'Products'},
+        {url: '/admin/categories', name: 'Categories'},
       ]
     }
   }

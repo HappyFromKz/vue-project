@@ -32,7 +32,7 @@ export default {
   methods:{
     async login(){
       if (await authService.login(this.form)){
-        this.$router.push('/home')
+        localStorage.getItem('role') === 'user' ? this.$router.push('/user') : this.$router.push('/admin')
       }
     }
   },

@@ -8,6 +8,14 @@ let config = {
 /** Creating the instance for axios */
 const httpClient = axios.create(config);
 
+const authInterceptor = config => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('access_token')}`;
+    return config;
+};
+
+
+httpClient.interceptors.request.use(authInterceptor);
+
 /** Adding the response interceptors */
 httpClient.interceptors.response.use(
     response => {
