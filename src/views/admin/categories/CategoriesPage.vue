@@ -1,50 +1,36 @@
 <template>
-  <div class="container">
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col" v-if="['moderator', 'admin'].includes(role)">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(item, index) in categories" :key="index">
-        <th scope="row">{{index+1}}</th>
-        <td>{{item.name}}</td>
-        <td v-if="['moderator', 'admin'].includes(role)">
-          <button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Update', item.id)"
-                  type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Change</button>
-          <button v-if="['admin'].includes(role)" @click="deleteCategory(item.id)" type="button" class="btn btn-danger">Delete</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Create')"
-            type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
-  </div>
+  <DataTable :value="categories" tableStyle="min-width: 50rem">
+    <Column header="#">
+      <template #body="{index}">
+        {{ index + 1 }}
+      </template>
+    </Column>
+    <Column field="name" header="Name"></Column>
+    <Column v-if="['moderator', 'admin'].includes(role)" field="category" header="Actions">
+      <template #body="{data}">
+        <Button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Update', data.id)" style="margin-right: 20px;"
+                type="button" class="p-button-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Change</Button>
+        <Button v-if="['admin'].includes(role)" @click="deleteCategory(data.id)" type="button" class="p-button-danger">Delete</Button>
+      </template>
+    </Column>
+  </DataTable>
+  <Button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Create')" style="margin-top: 20px;"
+          type="button" class="p-button-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</Button>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{activeModalMethod}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <label>Lastname</label>
-          <input type="text" class="form-control mb-2" placeholder="Lastname" v-model="modalData.name">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @clic="closeModal">Close</button>
-          <button v-if="activeModalMethod === 'Create'" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                  class="btn btn-primary" @click="createCategory">Create</button>
-          <button v-if="activeModalMethod === 'Update'" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                  class="btn btn-primary" @click="updateCategory">Update</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '60vw', '575px': '75vw' }">
+    <template #header>
+      {{activeModalMethod}} Category
+    </template>
+    <label>Name:</label><br>
+    <InputText type="text" class="form-control mb-2" placeholder="Name" v-model="modalData.name"/>
+    <template #footer>
+      <Button type="button" class="p-button-secondary" data-bs-dismiss="modal" @clic="closeModal">Close</Button>
+      <Button v-if="activeModalMethod === 'Create'" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              class="p-button-primary" @click="createCategory">Create</Button>
+      <Button v-if="activeModalMethod === 'Update'" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              class="p-button-primary" @click="updateCategory">Update</Button>
+    </template>
+  </Dialog>
 </template>
 
 <script>
@@ -56,7 +42,8 @@ export default {
     return {
       role: localStorage.getItem('role'),
       modalData: {},
-      activeModalMethod: ''
+      activeModalMethod: '',
+      visible: false
     }
   },
   computed: {
@@ -66,16 +53,19 @@ export default {
     ...mapActions('category', ['getCategories', 'putUpdateCategory', 'destroyDeleteCategory', 'postCreateCategory']),
     openModal(modalMethod, id = null){
       this.activeModalMethod = modalMethod
+      this.visible = true
       id ? this.modalData = {...this.categories.find(i => i.id == id)} : this.modalData = {name: ''}
     },
     closeModal(){
       this.activeModalMethod = ''
       this.modalData = {}
+      this.visible = false
     },
     async createCategory(){
       let createRes = await this.postCreateCategory(this.modalData)
       if (createRes){
         await this.getCategories()
+        this.closeModal()
       }
     },
     async deleteCategory(id){
@@ -88,6 +78,7 @@ export default {
       let updateRes = await this.putUpdateCategory(this.modalData)
       if (updateRes){
         await this.getCategories()
+        this.closeModal()
       }
     }
   },

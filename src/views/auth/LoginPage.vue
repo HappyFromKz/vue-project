@@ -1,28 +1,29 @@
 <template>
+  <HeaderUser v-if="role !== 'admin'"/>
   <div class="container">
     <div class="w-50 mx-auto mt-5">
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">@</span>
-        <input v-model="form.email"
-            type="text" class="form-control" placeholder="Почта" aria-label="Username" aria-describedby="basic-addon1">
+      <div>
+        <p>Почта</p>
+        <InputText type="text" v-model="form.email" placeholder="Фамилия"/>
+        <p>Пароль</p>
+        <Password v-model="form.password" toggleMask placeholder="Пароль"/>
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">*</span>
-        <input v-model="form.password"
-            type="password" class="form-control" placeholder="Пароль" aria-label="Username" aria-describedby="basic-addon1">
-      </div>
-      <button @click="login" type="button" class="btn btn-primary">Войти</button>
+      <Button @click="login" type="button" style="margin-top: 20px;">Войти</Button>
     </div>
+    <span>Нет аккаунта?</span> <router-link to="/register">Создать</router-link>
   </div>
 </template>
 
 <script>
 import authService from "@/services/auth/auth.service";
+import HeaderUser from "@/components/HeaderUser.vue";
 
 export default {
-  name: "AuthPage",
+  name: "LoginPage",
+  components: {HeaderUser},
   data(){
     return {
+      role: localStorage.getItem('role') || '',
       form:{
         password: null,
         email: '',

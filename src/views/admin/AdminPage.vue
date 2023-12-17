@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <navbar v-if="['moderator', 'admin'].includes(isPersonal)" :links="links"/>
+    <navbar :links="links"/>
     <router-view/>
   </div>
 </template>
@@ -13,10 +13,9 @@ export default {
   components: {Navbar},
   data(){
     return {
-      isPersonal: localStorage.getItem('role'),
       links: [
-        {url: '/admin/admin-products', name: 'Products'},
-        {url: '/admin/categories', name: 'Categories'},
+        {url: '/admin/admin-products', label: 'Products', icon: 'pi pi-star'},
+        {url: '/admin/categories', label: 'Categories', icon: 'pi pi-home'},
       ]
     }
   }

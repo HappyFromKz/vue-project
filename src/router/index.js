@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AuthPage from "@/views/auth/LoginPage.vue";
 import App from "@/App.vue";
 import CategoriesPage from "@/views/admin/categories/CategoriesPage.vue";
 import AdminPage from "@/views/admin/AdminPage.vue";
@@ -12,6 +11,7 @@ import ForbiddenPage from "@/views/ForbiddenPage.vue";
 import AdminProductsPage from "@/views/admin/products/AdminProductsPage.vue";
 import LoginPage from "@/views/auth/LoginPage.vue";
 import UserProduct from "@/views/user/UserProduct.vue";
+import RegisterPage from "@/views/auth/RegisterPage.vue";
 
 const routes = [
   {
@@ -21,22 +21,14 @@ const routes = [
     component: App
   },
   {
-    path: '/auth',
-    name: 'auth',
-    component: AuthPage,
-    redirect: '/auth/login',
-    children: [
-      {
-        path: 'login',
-        name: 'login',
-        component: LoginPage
-      },
-      {
-        path: 'register',
-        name: 'register',
-        component: CategoriesPage
-      },
-    ]
+    path: '/login',
+    name: 'login',
+    component: LoginPage
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterPage
   },
   {
     path: '/user',

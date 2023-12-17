@@ -1,25 +1,20 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item" v-for="(item, index) in links" :key="index">
-            <RouterLink :to="item.url" class="nav-link">{{ item.name }}</RouterLink>
-          </li>
-        </ul>
-        <div>
-          <span class="navbar-text me-2" style="font-size: 18px">
-            {{ username }}
-          </span>
-          <button @click="logout" type="button" class="btn btn-danger">Выйти</button>
-        </div>
-      </div>
-    </div>
-  </nav>
+  <Menubar :model="links" style="margin-bottom: 20px;">
+    <template #item="{ item}">
+      <router-link :to="item.url">
+        <span :class="item.icon" />
+        <span class="ml-2">{{ item.label }}</span>
+      </router-link>
+    </template>
+    <template #end>
+      <router-link to="/user/profile">
+            <span class="navbar-text me-2" style="font-size: 18px">
+              {{ username }}
+            </span>
+      </router-link>
+      <Button @click="logout" type="button" class="p-button-danger">Выйти</Button>
+    </template>
+  </Menubar>
 </template>
 
 <script>
@@ -38,7 +33,17 @@ export default {
   },
   methods:{
     logout(){
-      authService.logout() ? this.$router.push('/auth') : console.log('Error Navbar logout')
+      authService.logout() ? this.$router.push('/login') : console.log('Error Navbar logout')
+    }
+  },
+  async mounted() {
+    let userData = await authService.me(localStorage.getItem('access_token'))
+    try {
+      localStorage.setItem('name', `${userData.last_name_doc} ${userData.first_name_doc}`)
+      this.username = `${userData.last_name_doc} ${userData.first_name_doc}`
+    } catch (e){
+      console.log(e)
+      authService.logout()
     }
   }
 }

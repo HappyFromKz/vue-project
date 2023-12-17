@@ -19,26 +19,25 @@ export default {
 </script>
 
 <template>
-  <div class="row row-cols-3">
-    <div class="p-3 col" v-for="(product, index) in products" :key="index">
-      <div class="card">
-        <img :src="product.image" class="card-img-top" alt="?">
-        <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">{{product.price}}&#36;</p>
-          <div class="actions">
-            {{product.id}}
-            <button @click="addCart(product.id, products)" type="button" class="btn btn-success">
-              <span class="material-symbols-outlined">add_shopping_cart</span>
-            </button>
-            <router-link :to="`/user/user-product/${product.id}`">
-              <button type="button" class="btn btn-primary">
-                <span class="material-symbols-outlined">visibility</span>
-              </button>
-            </router-link>
-          </div>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-4 mb-3" v-for="(product, index) in products" :key="index">
+      <Card style="width: 25em">
+        <template #header>
+          <img alt="user header" height="400" width="400" :src="product.image" />
+        </template>
+        <template #title> {{ product.name }}</template>
+        <template #subtitle> {{product.price}}&#36; </template>
+        <template #footer>
+          <Button @click="addCart(product.id, products)" type="button" class="p-button-success" style="margin-right: 20px;">
+            <span class="material-symbols-outlined">add_shopping_cart</span>
+          </Button>
+          <router-link :to="`/user/user-product/${product.id}`">
+            <Button type="button" class="p-button-primary">
+              <span class="material-symbols-outlined">visibility</span>
+            </Button>
+          </router-link>
+        </template>
+      </Card>
     </div>
   </div>
 </template>

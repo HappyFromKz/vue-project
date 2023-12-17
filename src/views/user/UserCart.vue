@@ -68,7 +68,7 @@ export default {
         }
       } else {
         alert('Авторизуйтесь прежде чем купить что либо!')
-        this.$router.push('/auth')
+        this.$router.push('/login')
       }
     }
   },
