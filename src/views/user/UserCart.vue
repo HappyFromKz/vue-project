@@ -64,6 +64,7 @@ export default {
         let createRes = await this.createOrder(cart)
         if (createRes){
           localStorage.setItem('cart', JSON.stringify([]))
+          this.getCurrentCart()
           alert('Вы успешно заказли товары!')
         }
       } else {
