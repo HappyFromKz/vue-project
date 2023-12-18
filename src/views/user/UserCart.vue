@@ -83,7 +83,7 @@ export default {
 <template>
   <div class="my-3 d-flex justify-content-start">
     <router-link to="/user">
-      <button  type="button" class="btn btn-secondary">В магазин</button>
+      <Button  type="button" class="p-button-secondary">В магазин</Button>
     </router-link>
   </div>
   <div class="mt-3" v-if="cartProducts.length > 0">
@@ -106,19 +106,19 @@ export default {
         <td><img width="60" height="60" :src="item.image" alt=""></td>
         <td>{{item.price}}&#36;</td>
         <td>
-          <button @click="minusQuantity(item.id)" type="button" class="btn btn-danger">-</button>
+          <Button @click="minusQuantity(item.id)" type="button" class="p-button-danger">-</Button>
           {{item.cartQuantity}}
-          <button @click="plusQuantity(item.id)" type="button" class="btn btn-success">+</button>
+          <Button @click="plusQuantity(item.id)" type="button" class="p-button-success">+</Button>
         </td>
         <td>{{item.sumCost}}&#36;</td>
         <td>
-          <button @click="deleteCartItem(item.id)" type="button" class="btn btn-danger">Delete</button>
+          <Button @click="deleteCartItem(item.id)" type="button" class="p-button-danger">Delete</Button>
         </td>
       </tr>
       </tbody>
     </table>
     <h4>Total cost: {{cartCost}}&#36;</h4>
-    <button @click="buyProducts()" type="button" class="btn btn-success">Buy products</button>
+    <Button @click="buyProducts()" type="button" class="p-button-success">Buy products</Button>
   </div>
   <div v-else>
     <h1>Корзина пуста</h1>

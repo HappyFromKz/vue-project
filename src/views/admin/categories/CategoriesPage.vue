@@ -9,13 +9,13 @@
     <Column v-if="['moderator', 'admin'].includes(role)" field="category" header="Actions">
       <template #body="{data}">
         <Button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Update', data.id)" style="margin-right: 20px;"
-                type="button" class="p-button-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Change</Button>
+                type="button" class="p-button-success mx-2">Change</Button>
         <Button v-if="['admin'].includes(role)" @click="deleteCategory(data.id)" type="button" class="p-button-danger">Delete</Button>
       </template>
     </Column>
   </DataTable>
   <Button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Create')" style="margin-top: 20px;"
-          type="button" class="p-button-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</Button>
+          type="button" class="p-button-primary">Create</Button>
 
   <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '60vw', '575px': '75vw' }">
     <template #header>
@@ -24,10 +24,10 @@
     <label>Name:</label><br>
     <InputText type="text" class="form-control mb-2" placeholder="Name" v-model="modalData.name"/>
     <template #footer>
-      <Button type="button" class="p-button-secondary" data-bs-dismiss="modal" @clic="closeModal">Close</Button>
-      <Button v-if="activeModalMethod === 'Create'" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+      <Button type="button" class="p-button-secondary" @clic="closeModal">Close</Button>
+      <Button v-if="activeModalMethod === 'Create'" type="button"
               class="p-button-primary" @click="createCategory">Create</Button>
-      <Button v-if="activeModalMethod === 'Update'" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+      <Button v-if="activeModalMethod === 'Update'" type="button"
               class="p-button-primary" @click="updateCategory">Update</Button>
     </template>
   </Dialog>

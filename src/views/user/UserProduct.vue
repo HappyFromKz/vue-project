@@ -15,7 +15,6 @@ export default {
   methods:{
     ...mapActions('product', ['getProduct']),
     addCart,
-
   },
   async mounted() {
     await this.getProduct(this.product_id)

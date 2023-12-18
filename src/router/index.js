@@ -104,7 +104,6 @@ const router = createRouter({
 const pagesWithoutAuthorization = ['app', 'login', 'register', 'user-products', 'user-product:id', 'profile', 'cart', 'forbidden', 'not-found']
 
 router.beforeEach(async (to) => {
-  console.log(to)
   if (pagesWithoutAuthorization.includes(to.name)) {
     return true
   }
@@ -115,7 +114,6 @@ router.beforeEach(async (to) => {
     return true
   }
   return (!to.name) ? {name: 'not-found'} : {name: 'forbidden'}
-
 })
 
 export default router

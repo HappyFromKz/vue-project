@@ -1,6 +1,6 @@
 <template>
   <Button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Create')" style="margin-bottom: 20px;"
-          type="button" class="p-button-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</Button>
+          type="button" class="p-button-primary">Create</Button>
 
   <DataTable :value="products" tableStyle="min-width: 50rem">
     <Column header="#">
@@ -26,7 +26,7 @@
     <Column v-if="['moderator', 'admin'].includes(role)" field="category" header="Category">
       <template #body="{data}">
         <Button v-if="['moderator', 'admin'].includes(role)" @click="openModal('Update', data.id)"
-                type="button" class="p-button-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Change</Button>
+                type="button" class="p-button-success mx-2">Change</Button>
         <Button v-if="['admin'].includes(role)" @click="deleteClient(data.id)" type="button" class="p-button-danger"
                 style="margin-top: 10px;">Delete</Button>
       </template>
@@ -54,10 +54,10 @@
     <label>Category</label><br>
     <Dropdown v-model="modalData.category_id" :options="[{id: null, name:'Выберите категорию'}, ...categories]" optionLabel="name" optionValue="id" placeholder="Select a City" class="w-full md:w-14rem" />
     <template #footer>
-      <Button type="button" class="p-button-secondary" data-bs-dismiss="modal" @clic="closeModal">Close</Button>
-      <Button v-if="activeModalMethod === 'Create'" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+      <Button type="button" class="p-button-secondary" @clic="closeModal">Close</Button>
+      <Button v-if="activeModalMethod === 'Create'" type="button"
               class="p-button-primary" @click="createClient">Create</Button>
-      <Button v-if="activeModalMethod === 'Update'" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+      <Button v-if="activeModalMethod === 'Update'" type="button"
               class="p-button-primary" @click="updateClient">Update</Button>
     </template>
   </Dialog>
