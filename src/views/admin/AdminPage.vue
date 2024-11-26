@@ -15,7 +15,8 @@ export default {
     return {
       links: [
         {url: '/admin/admin-products', label: 'Products', icon: 'pi pi-star'},
-        {url: '/admin/categories', label: 'Categories', icon: 'pi pi-home'},
+        {url: '/admin/categories', label: 'Categories', icon: 'pi pi-bars'},
+        {url: '/user/user-products', label: 'Home', icon: 'pi pi-home'},
       ]
     }
   }
