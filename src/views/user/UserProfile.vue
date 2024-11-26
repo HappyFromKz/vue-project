@@ -8,7 +8,8 @@ export default {
     return{
       userData: {},
       activeModalProducts: [],
-      orderCost: null
+      orderCost: null,
+      role: localStorage.getItem('role'),
     }
   },
   computed:{
@@ -44,7 +45,12 @@ export default {
       <h5>Email: {{userData.email}}</h5>
       <h5>Address: {{userData.address}}</h5>
     </div>
-    <div class="my-3">
+    <div v-if="['admin'].includes(role)" class="d-flex justify-content-center">
+      <router-link :to="`/admin/admin-products`">
+        <button type="button" class="btn btn-primary">Admin Panel</button>
+      </router-link>
+    </div>
+    <div v-else class="my-3">
       <h3>Заказы:</h3>
       <table class="table">
         <thead>
