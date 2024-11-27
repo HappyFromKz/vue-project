@@ -14,6 +14,17 @@ const order = {
                 console.log(e)
             }
         },
+        async getAllOrders({commit}) {
+            try {
+                const {data, status} = await httpClient.get('admin/order');
+                if (status == 200) {
+                    console.log(data)
+                    commit('set_all_orders', data)
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        },
         async createOrder({commit},products){
             try {
                 const {status} = await httpClient.post('order', products);
@@ -26,10 +37,14 @@ const order = {
     mutations: {
         set_orders(state, data){
             state.orders = data
+        },
+        set_all_orders(state, data){
+            state.all_orders = data
         }
     },
     state: {
-        orders: []
+        orders: [],
+        all_orders: [],
     },
 }
 

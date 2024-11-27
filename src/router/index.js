@@ -12,6 +12,7 @@ import AdminProductsPage from "@/views/admin/products/AdminProductsPage.vue";
 import LoginPage from "@/views/auth/LoginPage.vue";
 import UserProduct from "@/views/user/UserProduct.vue";
 import RegisterPage from "@/views/auth/RegisterPage.vue";
+import OrdersPage from "@/views/admin/orders/OrdersPage.vue";
 
 const routes = [
   {
@@ -77,6 +78,15 @@ const routes = [
         path: 'categories',
         name: 'categories',
         component: CategoriesPage,
+        meta:{
+          admin: true,
+          moderator: true
+        }
+      },
+      {
+        path: 'orders',
+        name: 'orders',
+        component: OrdersPage,
         meta:{
           admin: true,
           moderator: true

@@ -2,7 +2,7 @@
   <Menubar :model="links" style="margin-bottom: 20px;">
     <template #item="{ item}">
       <router-link class="m-1" :to="item.url">
-        <Button @click="logout" type="button" class="p-button-danger">
+        <Button type="button" class="p-button-danger">
           <span class="me-1" :class="item.icon" />
           <span class="ml-2">{{ item.label }}</span>
         </Button>

@@ -47,19 +47,19 @@ export default {
     <div class="w-50 mx-auto mt-5">
       <form>
         <div>
-          <p>Фамилия</p>
+          <p class="mb-1 mt-2">Фамилия</p>
           <InputText type="text" v-model="form.last_name_doc" placeholder="Фамилия"/>
-          <p>Имя</p>
+          <p class="mb-1 mt-2">Имя</p>
           <InputText type="text" v-model="form.first_name_doc" placeholder="Имя"/>
-          <p>Почта</p>
+          <p class="mb-1 mt-2">Почта</p>
           <InputText type="text" v-model="form.email" placeholder="Почта"/>
-          <p>Телефон</p>
+          <p class="mb-1 mt-2">Телефон</p>
           <InputText type="text" v-model="form.phone_number" placeholder="Телефон"/>
-          <p>Адрес</p>
+          <p class="mb-1 mt-2">Адрес</p>
           <InputText type="text" v-model="form.address" placeholder="Адрес"/>
-          <p>Пароль</p>
+          <p class="mb-1 mt-2">Пароль</p>
           <Password v-model="form.password" toggleMask placeholder="Пароль"/>
-          <p>Повторите пароль</p>
+          <p class="mb-1 mt-2">Повторите пароль</p>
           <Password v-model="form.passwordConfirm" toggleMask placeholder="Повторите пароль"/>
         </div>
         <Button @click="register" type="submit" style="margin-top: 20px">Зарегистрироваться</Button>
